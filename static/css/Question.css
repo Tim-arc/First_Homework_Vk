@@ -1,0 +1,85 @@
+.root__main > hr {
+    height: 1px;
+    background-color: black;
+}
+
+.question {
+    display: flex;
+    gap: 1rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.question .likes {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.2rem;
+}
+
+.question__content > h1 {
+    font-size: 2rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.comment {
+    background-color: #fff;
+    border: 1px solid #323232;
+    border-radius: 1rem;
+    padding: 1.2rem;
+    display: flex;
+    gap: 1.2rem;
+    transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.comment .likes {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.2rem;
+}
+
+.comment__likes-and-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.question__likes-and-avatar > .avatar_span {
+    width: 100%;
+    height: 50%;
+    border: 1px solid black;
+}
+
+.comment__likes-and-avatar > .avatar_span {
+    width: 100%;
+    height: 50%;
+    border: 1px solid black;
+}
+
+.comment__content > h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.new-comment > textarea {
+    width: 100%;
+    height: 8rem;
+    border-radius: 1rem;
+    padding: .5rem;
+}

@@ -1,0 +1,303 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.7rem 1.3rem;
+    background-color: #ffbf00;
+    border-bottom: 2px solid #7b7b7b;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+header .logo { 
+    font-size: 2rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+input.search {
+    flex-grow: 1;
+    border: 1px solid #7b7b7b;
+    border-radius: 0.8rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+}
+
+header > a.ask-button {
+    color: #FFF;
+    background-color: #0f740e;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.7rem 2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+header > a.ask-button:hover {
+    background-color: #46d144;
+    transform: translateY(-2px) scale(1.02);
+}
+
+.profile-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile-wrapper .profile-pic { 
+    width: 45px;
+    height: 45px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem
+}
+
+.profile-name {
+    font-weight: bold;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+}
+
+.button-wrapper a {
+    text-decoration: none;
+    color: #007bff;
+    
+}
+
+.button-wrapper a:hover {
+    text-decoration: underline;
+}
+
+.root {
+    display: flex;
+    gap: 2rem;
+    padding: 1.3rem;
+    margin: 0 auto;
+}
+
+.root__main {
+    flex: 3;
+}
+
+aside {
+    flex: 1;
+}
+
+.root__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.root__header h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.hot-questions {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.question-item {
+    background-color: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 1rem;
+    padding: 1.2rem;
+    display: flex;
+    gap: 1.2rem;
+    transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.question-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #d95b00;
+    transform: translateY(-2px) scale(1.02);
+}
+
+.question__likes-and-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.question__likes-and-avatar .avatar { 
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.question-item .likes {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.2rem;
+}
+
+.question__content {
+    flex-grow: 1;
+}
+
+.question-title {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: color 0.2s ease-out;
+}
+
+.question-title:hover {
+    color: #007bff;
+}
+
+.description {
+    margin: 0.5rem 0 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.question__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.question__footer a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.question__footer .tags a {
+    background-color: #eef;
+    color: #557;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    text-decoration: none;
+}
+
+.question__footer .tags a:hover {
+    background-color: #ddf;
+}
+
+aside section {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e1e4e8;
+}
+
+aside h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.popular-tags__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.popular-tags__links a {
+    text-decoration: none;
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+a[href*="python"], a[href*="mysql"] {
+    background-color: #ffebeb !important;
+    color: #c00 !important;
+}
+
+#firefox {
+    background-color: #fff0db !important;
+    color: #d95b00 !important;
+}
+
+
+ul.best-members__links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.best-members__links a {
+    text-decoration: none;
+    color: #333;
+}
+
+.paginator {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.paginator > * {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.paginator > *:hover {
+    background-color: #ffbf00;
+    border-color: #007bff;
+}
+
+.paginator > .no-click, .paginator > button:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #6c757d;
+}
+
+.paginator > button:disabled:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
+    color: #6c757d;
+}
