@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+</head>
+<body>
+    <header>
+        <a href="/" class="logo" >AskPupkin</a>
+        <input type="text" class="search" placeholder="Search">
+ 
+        <a href="/ask" class="ask-button">Ask</a>
+ 
+        <div class="profile-wrapper">
+            <div class="profile-info">
+                <div class="button-wrapper">
+                    <a href="#">log in</a>
+                    <a href="/register">register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="root">
+        <main class="root__main">
+            <h1>Log In</h1>
+            <form>
+                <label class="form-label">
+                    Login
+                    <input type="text" name="title" placeholder="Enter your login">
+                </label>
+                <label class="form-label">
+                    Password
+                    <input type="text" name="title" placeholder="Enter your email">
+                </label>
+                <div class="button-wrapper"><button type="submit">Log in!</button></div>
+            </form>
+            <a href="/register" class="new-user">Create new account</a>
+        </main>
+
+        <aside>
+            <section id="popular_tags">
+                <h3>Popular Tags</h3>
+                <div class="popular-tags__links">
+                    <a href="#">perl</a>
+                    <a href="#" style="color: red">python</a>
+                    <a href="#">technopark</a>
+                    <a href="#" style="color: red">mysql</a>
+                    <a href="#">technopark</a>
+                    <a href="#" id="firefox">firefox</a>
+                </div>
+            </section>
+ 
+            <section id="best_members">
+                <h3>Best Members</h3>
+                <ul class="best-members__links">
+                    <li>
+                        <a href="#">mr freeman</a>
+                    </li>
+ 
+                    <li>
+                        <a href="#">dr house</a>
+                    </li>
+ 
+                    <li>
+                        <a href="/filtred">bender</a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+    </div>
+</body>
+</html>
