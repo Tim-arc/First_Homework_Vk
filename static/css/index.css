@@ -271,33 +271,80 @@ ul.best-members__links {
 }
 
 .paginator {
-    margin-top: 2rem;
     display: flex;
-    gap: 0.5rem;
-}
-
-.paginator > * {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.3s;
-}
-
-.paginator > *:hover {
-    background-color: #ffbf00;
-    border-color: #007bff;
-}
-
-.paginator > .no-click, .paginator > button:disabled {
-    background-color: #e9ecef;
-    cursor: not-allowed;
-    color: #6c757d;
-}
-
-.paginator > button:disabled:hover {
-    background-color: #e9ecef;
-    border-color: #ccc;
-    color: #6c757d;
-}
+    justify-content: center;
+    margin: 24px 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+  
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .page-list {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0 6px;
+  }
+  
+  .page-btn,
+  .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 0px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb; /* light gray */
+    background: #ffffff;
+    text-decoration: none;
+    color: #111827; /* gray-900 */
+    font-size: 14px;
+    line-height: 1;
+    transition: transform .06s ease, box-shadow .12s ease, background .12s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  
+  .page-btn:hover,
+  .page-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  }
+  
+  .page-link.is-active {
+    background: #111827;
+    color: #fff;
+    border-color: #111827;
+    cursor: default;
+    box-shadow: 0 4px 10px rgba(17,24,39,.18);
+  }
+  
+  .is-disabled {
+    opacity: .45;
+    pointer-events: none;
+  }
+  
+  .ellipsis {
+    padding: 0 4px;
+    color: #6b7280; /* gray-500 */
+    user-select: none;
+  }
+  
+  .page-counter {
+    margin-left: 8px;
+    color: #6b7280;
+    font-size: 13px;
+  }
+  
+  /* Тач-удобство */
+  @media (pointer: coarse) {
+    .page-btn, .page-link { min-width: 42px; height: 42px; }
+  }
+  

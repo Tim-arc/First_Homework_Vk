@@ -1,0 +1,29 @@
+{% extends 'qa/base.html' %}
+
+{% block body_content %}
+    <div class="root">
+        
+        {% block content %}
+        {% endblock %}
+
+        <aside>
+            <section id="popular_tags">
+                <h3>Популярные теги</h3>
+                <div class="popular-tags__links">
+                    {% for tag in popular_tags %}
+                        <a href="{% url 'qa:questions_by_tag' tag_name=tag.name %}" {% if forloop.counter <= 2 %}style="color: red;"{% endif %}>{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            </section>
+ 
+            <section id="best_members">
+                <h3>Лучшие участники</h3>
+                <ul class="best-members__links">
+                    {% for member in best_members %}
+                        <li><a href="#">{{ member.username }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </aside>
+    </div>
+{% endblock %}

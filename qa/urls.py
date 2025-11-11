@@ -1,21 +1,13 @@
-from .views import (
-    index, 
-    new_question_view,
-    question_detail_view,
-    filtred_view,
-    profile_view,
-    login_view,
-    register_view,
-)
+from . import views
 from django.urls import path
 
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('ask/', new_question_view, name='ask'),
-    path('question/', question_detail_view, name='question_detail'),
-    path('filtred/', filtred_view, name="filtred"),
-    path('profile/', profile_view, name="profile"),
-    path('login/', login_view, name="login"),
-    path('register/', register_view, name="register"),
+    path('best/', views.best_questions_view, name='best'),
+    path('ask/', views.new_question_view, name='ask'),
+    path('question/<int:question_id>/', views.question_detail_view, name='question_detail'),
+    path('question/', views.question_detail_view, name='question_detail'),
+    path('tag/<str:tag_name>/', views.questions_by_tag_view, name='questions_by_tag'),
+    # path('filtred/', views.filtred_view, name="filtred"),
+    path('', views.index, name='index'),
 ]

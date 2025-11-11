@@ -1,129 +1,46 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question</title>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/Question.css' %}">
-</head>
-<body>
-    <header>
-        <a href="/" class="logo" >AskPupkin</a>
-        <input type="text" class="search" placeholder="Search">
- 
-        <a href="/ask" class="ask-button">Ask</a>
- 
-        <div class="profile-wrapper">
-            <div class="profile-pic">Pic</div>
- 
-            <div class="profile-info">
-                <div class="profile-name">Dr. Pepper</div>
-                <div class="button-wrapper">
-                    <a href="#HERE">settings</a>
-                    <a href="#">log out</a>
+{% extends 'qa/main_layout.html' %}
+
+{% block content %}
+<main class="root__main">
+    
+    <div class="question-item" style="margin-top: 20px;">
+        <div class="question__likes-and-avatar">
+            <span>Аватар {{ question.author.username }}</span>
+            <input class="likes" type="number" value="{{ question.questionlike_set.count }}">
+        </div>
+        <div class="question__content">
+            <h1 class="question-title">{{ question.title }}</h1>
+            <div class="description">{{ question.text|linebreaks }}</div>
+            <div class="question__footer">
+                <span>
+                    Теги:
+                    {% for tag in question.tags.all %}
+                        <a href="{% url 'qa:questions_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    
+    <h2 style="margin-left: 20px;">Ответы:</h2>
+    {% for answer in answers %}
+        <div class="question-item answer-item" style="margin-top: 15px;">
+            <div class="question__likes-and-avatar">
+                <span>Аватар {{ answer.author.username }}</span>
+                <input class="likes" type="number" value="{{ answer.answerlike_set.count }}">
+            </div>
+            <div class="question__content">
+                <div class="description">{{ answer.text|linebreaks }}</div>
+                <div class="question__footer">
+                    <span>by {{ answer.author.username }} at {{ answer.created_at|date:"Y-m-d H:i" }}</span>
                 </div>
             </div>
         </div>
-    </header>
+    {% empty %}
+        <p style="margin-left: 20px;">No answers yet. Be the first to answer!</p>
+    {% endfor %}
 
-    <div class="root">
-        <main class="root__main">
-            <div class="question">
-                <div class="question__likes-and-avatar">
-                    <div class="avatar_span"><span>avatar</span></div>
-                    <input class="likes" type="number" value="439">
-                </div>
-                
-                <div class="question__content">
-                    <h1>How to build a moon park?</h1>
-                    <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                        minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                        explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
-
-                    <div class="question__footer">
-                        <span>
-                            Tags
-                            <a href="#">black-jack</a>
-                            <a href="#">bender</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <hr>
-
-            <div class="comment-container">
-                <div class="comment">
-                    <div class="comment__likes-and-avatar">
-                        <div class="avatar_span"><span>avatar</span></div>
-                        <input class="likes" type="number" value="439">
-                    </div>
-                
-                    <div class="comment__content">
-                        <h1>How to build a moon park?</h1>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
-                        <div class="comment__footer">
-                            <input type="checkbox">
-                            <span>Correct!</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="comment">
-                    <div class="comment__likes-and-avatar">
-                        <div class="avatar_span"><span>avatar</span></div>
-                        <input class="likes" type="number" value="439">
-                    </div>
-                
-                    <div class="comment__content">
-                        <h1>How to build a moon park?</h1>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
-                        <div class="comment__footer">
-                            <input type="checkbox">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="new-comment">
-                <textarea placeholder="Enter your answer here"></textarea>
-            </div>
-
-        </main>
-
-        <aside>
-            <section id="popular_tags">
-                <h3>Popular Tags</h3>
-                <div class="popular-tags__links">
-                    <a href="#">perl</a>
-                    <a href="#" style="color: red">python</a>
-                    <a href="#">technopark</a>
-                    <a href="#" style="color: red">mysql</a>
-                    <a href="#">technopark</a>
-                    <a href="#" id="firefox">firefox</a>
-                </div>
-            </section>
-            <section id="best_members">
-                <h3>Best Members</h3>
-                <ul class="best-members__links">
-                    <li>
-                        <a href="#">mr freeman</a>
-                    </li>
-                    <li>
-                        <a href="#">dr house</a>
-                    </li>
-                    <li>
-                        <a href="#">bender</a>
-                    </li>
-                </ul>
-            </section>
-        </aside>
-
-    </div>
-    
-</body>
-</html>
+</main>
+{% endblock %}

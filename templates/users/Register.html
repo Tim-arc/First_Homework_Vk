@@ -1,0 +1,43 @@
+{% extends 'qa/main_layout.html' %}
+
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/Profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="root__main">
+    <h1>Зарегистрироваться</h1>
+    <form>
+        <label class="form-label">
+            Логин
+            <input type="text" name="login" placeholder="Введите логин">
+        </label>
+        <label class="form-label">
+            Почта
+            <input type="email" name="email" placeholder="Введите почту">
+        </label>
+        <label class="form-label">
+            Никнейм
+            <input type="text" name="nickname" placeholder="Введите никнейм">
+        </label>
+        <label class="form-label">
+            Пароль
+            <input type="password" name="password" placeholder="Введите пароль">
+        </label>
+        <label class="form-label">
+            Повторить пароль
+            <input type="password" name="password_repeat" placeholder="Повторите пароль">
+        </label>
+        <label class="form-label">
+            Загрузить фото
+            <input type="file" name="avatar" accept="image/*">
+        </label>
+        <div class="button-wrapper"><button type="submit">Зарегистрироваться</button></div>
+    </form>
+    
+    <a href="{% url 'users:login' %}" class="new-user">Уже есть аккаунт? Войдите</a>
+</main>
+{% endblock %}

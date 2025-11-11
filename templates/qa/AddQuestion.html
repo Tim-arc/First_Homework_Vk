@@ -1,79 +1,28 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewQuestion</title>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/AddQuestion.css' %}">
-</head>
-<body>
-    <header>
-        <a href="/" class="logo" >AskPupkin</a>
-        <input type="text" class="search" placeholder="Search">
- 
-        <a href="/ask" class="ask-button">Ask</a>
- 
-        <div class="profile-wrapper">
-            <div class="profile-pic">Pic</div>
- 
-            <div class="profile-info">
-                <div class="profile-name">Dr. Pepper</div>
-                <div class="button-wrapper">
-                    <a href="#HERE">settings</a>
-                    <a href="#">log out</a>
-                </div>
-            </div>
-        </div>
-    </header>
+{% extends 'qa/main_layout.html' %}
 
-    <div class="root">
-        <main class="root__main">
-            <h1>New Question</h1>
-                <form method="post">
-                    <label class="form-label">
-                        Title
-                        <input type="text" name="title" placeholder="How to build a moon park?">
-                    </label>
-                    <label class="form-label">
-                        Text
-                        <textarea name="content" placeholder="Really, how? Have no idea about it"></textarea>
-                    </label>
-                    <label class="form-label">
-                        Tags
-                        <input type="text" name="tags" placeholder="Tags">
-                    </label>
-                    <div class="button-wrapper"><button type="submit">Ask!</button></div>
-                </form>
-        </main>
-        <aside>
-            <section id="popular_tags">
-                <h3>Popular Tags</h3>
-                <div class="popular-tags__links">
-                    <a href="#">perl</a>
-                    <a href="#" style="color: red">python</a>
-                    <a href="#">technopark</a>
-                    <a href="#" style="color: red">mysql</a>
-                    <a href="#">technopark</a>
-                    <a href="#" id="firefox">firefox</a>
-                </div>
-            </section>
-            <section id="best_members">
-                <h3>Best Members</h3>
-                <ul class="best-members__links">
-                    <li>
-                        <a href="#">mr freeman</a>
-                    </li>
-                    <li>
-                        <a href="#">dr house</a>
-                    </li>
-                    <li>
-                        <a href="#">bender</a>
-                    </li>
-                </ul>
-            </section>
-        </aside>
-    </div>
-</body>
-</html>
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/AddQuestion.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="root__main">
+    <h1>Новый вопрос</h1>
+    <form method="post">
+        <label class="form-label">
+            Заголовок
+            <input type="text" name="title" placeholder="Напишите свой заголовок сюда">
+        </label>
+        <label class="form-label">
+            Текст
+            <textarea name="content" placeholder="Здесь будет текст вашего вопроса"></textarea>
+        </label>
+        <label class="form-label">
+            Теги
+            <input type="text" name="tags" placeholder="Теги">
+        </label>
+        <div class="button-wrapper"><button type="submit">Опубликовать!</button></div>
+    </form>
+</main>
+{% endblock %}

@@ -1,295 +1,33 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StarkOverFlow</title>
- 
- 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"> -->
+    <title>{% block title %}AskPupkin{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
- 
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
- 
-        button {
-            font-family: 'Times New Roman', Times, serif;
-        }
- 
-        button:disabled {
-            background-color: blue;
-        }
- 
-        button:disabled:hover {
-            background-color: blue;
-            cursor: not-allowed;
-        }
- 
-        .content {
- 
-        }
-    </style>
+    {% block extra_styles %}{% endblock %}
 </head>
  
 <body>
     <header>
-        <a href="/" class="logo" >AskPupkin</a>
+        <a href="{% url 'qa:index' %}" class="logo" >AskPupkin</a>
         <input type="text" class="search" placeholder="Search">
- 
-        <a href="/ask" class="ask-button">Ask</a>
- 
+        <a href="{% url 'qa:ask' %}" class="ask-button">Спросить</a>
         <div class="profile-wrapper">
-            <div class="profile-pic">Pic</div>
- 
+            <div class="profile-pic">Фото</div>
             <div class="profile-info">
-                <a href="/profile" class="profile-name">Dr. Pepper</a>
+                <a href="{% url 'users:profile' %}" class="profile-name">Dr. Pepper</a>
                 <div class="button-wrapper">
-                    <a href="#HERE">settings</a>
-                    <a href="/register">log out</a>
+                    <a href="#">Настройки</a>
+                    <a href="{% url 'users:register' %}">Выйти</a>
                 </div>
             </div>
         </div>
     </header>
- 
-    <div class="root">
-        <main class="root__main">
-            <section class="root__header">
-                <h1>New questions</h1>
-                <a href="#" class="hot-questions">Hot questions</a>
-            </section>
- 
-            <section id="content" class="content">
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="643">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="/question" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="439">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="/question" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="308">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="/question" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="270">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="/question" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="257">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="/question" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="231">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="/question" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
- 
-                <div class="question-item">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="197">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="#content" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="question-item" id="HERE">
-                    <div class="question__likes-and-avatar">
-                        <span>avatar</span>
-                        <input class="likes" type="number" value="144">
-                    </div>
- 
-                    <div class="question__content">
-                        <a href="#content" class="question-title">How to build a moon park?</a>
-                        <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                            minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                            explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
- 
-                        <div class="question__footer">
-                            <a href="#">answer (3)</a>
- 
-                            <span>
-                                Tags
-                                <a href="#">black-jack</a>
-                                <a href="/filtred">bender</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </section>
- 
-            <section class="paginator">
-                <button disabled title="Жди">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button class="no-click">...</button>
-                <button>53</button>
-            </section>
-        </main>
- 
-        <aside>
-            <section id="popular_tags">
-                <h3>Popular Tags</h3>
-                <div class="popular-tags__links">
-                    <a href="#">perl</a>
-                    <a href="#" style="color: red">python</a>
-                    <a href="#">technopark</a>
-                    <a href="#" style="color: red">mysql</a>
-                    <a href="#">technopark</a>
-                    <a href="#" id="firefox">firefox</a>
-                </div>
-            </section>
- 
-            <section id="best_members">
-                <h3>Best Members</h3>
-                <ul class="best-members__links">
-                    <li>
-                        <a href="#">mr freeman</a>
-                    </li>
- 
-                    <li>
-                        <a href="#">dr house</a>
-                    </li>
- 
-                    <li>
-                        <a href="/filtred">bender</a>
-                    </li>
-                </ul>
-            </section>
-        </aside>
-    </div>
+
+    {% block body_content %}
+    {% endblock %}
+
 </body>
- 
 </html>
