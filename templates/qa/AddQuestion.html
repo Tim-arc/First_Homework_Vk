@@ -1,0 +1,28 @@
+{% extends 'qa/main_layout.html' %}
+
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/AddQuestion.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="root__main">
+    <h1>Новый вопрос</h1>
+    <form method="post">
+        <label class="form-label">
+            Заголовок
+            <input type="text" name="title" placeholder="Напишите свой заголовок сюда">
+        </label>
+        <label class="form-label">
+            Текст
+            <textarea name="content" placeholder="Здесь будет текст вашего вопроса"></textarea>
+        </label>
+        <label class="form-label">
+            Теги
+            <input type="text" name="tags" placeholder="Теги">
+        </label>
+        <div class="button-wrapper"><button type="submit">Опубликовать!</button></div>
+    </form>
+</main>
+{% endblock %}

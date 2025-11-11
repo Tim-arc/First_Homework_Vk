@@ -1,0 +1,46 @@
+{% extends 'qa/main_layout.html' %}
+
+{% block content %}
+<main class="root__main">
+    
+    <div class="question-item" style="margin-top: 20px;">
+        <div class="question__likes-and-avatar">
+            <span>Аватар {{ question.author.username }}</span>
+            <input class="likes" type="number" value="{{ question.questionlike_set.count }}">
+        </div>
+        <div class="question__content">
+            <h1 class="question-title">{{ question.title }}</h1>
+            <div class="description">{{ question.text|linebreaks }}</div>
+            <div class="question__footer">
+                <span>
+                    Теги:
+                    {% for tag in question.tags.all %}
+                        <a href="{% url 'qa:questions_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    
+    <h2 style="margin-left: 20px;">Ответы:</h2>
+    {% for answer in answers %}
+        <div class="question-item answer-item" style="margin-top: 15px;">
+            <div class="question__likes-and-avatar">
+                <span>Аватар {{ answer.author.username }}</span>
+                <input class="likes" type="number" value="{{ answer.answerlike_set.count }}">
+            </div>
+            <div class="question__content">
+                <div class="description">{{ answer.text|linebreaks }}</div>
+                <div class="question__footer">
+                    <span>by {{ answer.author.username }} at {{ answer.created_at|date:"Y-m-d H:i" }}</span>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p style="margin-left: 20px;">No answers yet. Be the first to answer!</p>
+    {% endfor %}
+
+</main>
+{% endblock %}

@@ -24,3 +24,5 @@ staticfiles/
 
 # VSCode
 .vscode/
+
+avatars/
