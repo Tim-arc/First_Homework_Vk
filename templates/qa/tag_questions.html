@@ -1,0 +1,42 @@
+{% extends 'qa/main_layout.html' %}
+
+{% block content %}
+<main class="root__main">
+    <section class="root__header">
+        <h1>Вопросы по тегам: "{{ tag.name }}"</h1>
+        <a href="{% url 'qa:index' %}" class="hot-questions">Все новые вопросы</a>
+    </section>
+
+    <section id="content" class="content">
+        {% for question in page_obj %}
+        <div class="question-item">
+            <div class="question__content">
+                <a href="{% url 'qa:question_detail' question_id=question.id %}" class="question-title">{{ question.title }}</a>
+                <div class="description">{{ question.text|truncatewords:40 }}</div>
+                <div class="question__footer">
+                    <span>
+                        Теги:
+                        {% for t in question.tags.all %}
+                            <a href="{% url 'qa:questions_by_tag' tag_name=t.name %}">{{ t.name }}</a>
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <section class="paginator">
+        {% for p in custom_page_range %}
+            {% if p == '...' %}
+                <button class="no-click">...</button>
+            {% elif p == page_obj.number %}
+                <button disabled title="Жди">{{ p }}</button>
+            {% else %}
+                <a href="?page={{ p }}"><button>{{ p }}</button></a>
+            {% endif %}
+        {% endfor %}
+    </section>
+
+</main>
+{% endblock %}

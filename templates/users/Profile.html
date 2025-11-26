@@ -1,0 +1,28 @@
+{% extends 'qa/main_layout.html' %}
+
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/Profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="root__main">
+    <h1>Settings: Dr. Pepper</h1>
+    <form>
+        <label class="form-label">
+            Логин
+            <input type="text" name="title" placeholder="Введите логин">
+        </label>
+        <label class="form-label">
+            Почта
+            <input type="email" name="title" placeholder="Введите почту">
+        </label>
+        <label class="form-label">
+            Загрузить фотку
+            <input type="file" name="avatar" accept="image/*">
+        </label>
+        <div class="button-wrapper"><button type="submit">Сохранить</button></div>
+    </form>
+</main>
+{% endblock %}

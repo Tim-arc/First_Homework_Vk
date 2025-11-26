@@ -1,0 +1,77 @@
+{% extends 'qa/main_layout.html' %}
+
+{% block content %}
+<main class="root__main">
+    <section class="root__header">
+        <h1>Популярные вопросы</h1>
+        <a href="/" class="hot-questions">Новые вопросы</a>
+    </section>
+
+    <section id="content" class="content">
+        {% for question in page_obj %}
+        <div class="question-item">
+            <div class="question__likes-and-avatar">
+                <span>Аватар</span>
+                <input class="likes" type="number" value="{{ question.questionlike_set.count }}">
+            </div>
+
+            <div class="question__content">
+                <a href="{% url 'qa:question_detail' question_id=question.id %}" class="question-title">{{ question.title }}</a>
+                <div class="description">{{ question.text }}</div>
+
+                <div class="question__footer">
+                    <a href="#">ответ ({{ question.answer_set.count }})</a>
+                    <span>
+                        Теги:
+                        {% for tag in question.tags.all %}
+                            <a href="{% url 'qa:questions_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </section>
+
+    <section class="paginator" aria-label="Навигация по страницам">
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="pagination" role="navigation">
+      
+          <a class="page-btn {% if not page_obj.has_previous %}is-disabled{% endif %}"
+             href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
+             aria-label="Предыдущая страница" {% if not page_obj.has_previous %}aria-disabled="true" tabindex="-1"{% endif %}>‹</a>
+      
+          <ol class="page-list">
+            {% if page_obj.number > 3 %}
+              <li><a class="page-link" href="?page=1">1</a></li>
+              <li class="ellipsis" aria-hidden="true">…</li>
+            {% endif %}
+      
+            {% for num in page_obj.paginator.page_range %}
+              {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                {% if num == page_obj.number %}
+                  <li><span class="page-link is-active" aria-current="page">{{ num }}</span></li>
+                {% else %}
+                  <li><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+      
+            {% if page_obj.number < page_obj.paginator.num_pages|add:"-2" %}
+              <li class="ellipsis" aria-hidden="true">…</li>
+              <li><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+            {% endif %}
+          </ol>
+      
+          <a class="page-btn {% if not page_obj.has_next %}is-disabled{% endif %}"
+             href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
+             aria-label="Следующая страница" {% if not page_obj.has_next %}aria-disabled="true" tabindex="-1"{% endif %}>›</a>
+      
+          <span class="page-counter">Стр. {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </nav>
+        {% endif %}
+      </section>
+      
+</main>
+{% endblock %}

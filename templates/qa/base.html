@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AskPupkin{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    {% block extra_styles %}{% endblock %}
+</head>
+ 
+<body>
+    <header>
+        <a href="{% url 'qa:index' %}" class="logo" >AskPupkin</a>
+        <input type="text" class="search" placeholder="Search">
+        <a href="{% url 'qa:ask' %}" class="ask-button">Спросить</a>
+        <div class="profile-wrapper">
+            <div class="profile-pic">Фото</div>
+            <div class="profile-info">
+                <a href="{% url 'users:profile' %}" class="profile-name">Dr. Pepper</a>
+                <div class="button-wrapper">
+                    <a href="#">Настройки</a>
+                    <a href="{% url 'users:register' %}">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block body_content %}
+    {% endblock %}
+
+</body>
+</html>
