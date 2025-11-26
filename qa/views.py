@@ -17,7 +17,8 @@ def new_question_view(request):
 
 def question_detail_view(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    answers = Answer.objects.filter(question=question).order_by('-created_at')
+    answers = question.get_answers()
+    
     context = {
         'question': question,
         'answers': answers,
@@ -31,12 +32,12 @@ def filtred_view(request):
 def best_questions_view(request):
     best_questions = Question.objects.best()
     context = paginate(request, best_questions, per_page=4)
-    
+
     return render(request, 'qa/best.html', context)
 
 def questions_by_tag_view(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
-    questions = Question.objects.filter(tags=tag).order_by('-created_at')
+    questions = Question.objects.by_tag(tag_name)
     context = paginate(request, questions, per_page=4)
     context['tag'] = tag
     

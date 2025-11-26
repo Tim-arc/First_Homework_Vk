@@ -52,7 +52,7 @@ class Command(BaseCommand):
         User.objects.bulk_create(users_to_create)
         
         new_users = User.objects.order_by('-id')[:num_users]
-        profiles_to_create = [Profile(user=user, nickname=f'cool_nick_{user.username}') for user in new_users]
+        profiles_to_create = [Profile(user=user) for user in new_users]
         Profile.objects.bulk_create(profiles_to_create)
         users = list(User.objects.filter(is_superuser=False))
         self.stdout.write(self.style.SUCCESS(f'Пользователи и профили созданы.'))
