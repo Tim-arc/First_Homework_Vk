@@ -5,12 +5,19 @@
     
     <div class="question-item" style="margin-top: 20px;">
         <div class="question__likes-and-avatar">
-            <span>Аватар {{ question.author.username }}</span>
-            <input class="likes" type="number" value="{{ question.questionlike_set.count }}">
+            {% if question.author %}
+                <span>{{ question.author.username }}</span>
+                {% if question.author.profile.avatar %}
+                   <!-- тут можно вывести мини-аватар -->
+                {% endif %}
+            {% else %}
+                <span>Удаленный пользователь</span>
+            {% endif %}
         </div>
         <div class="question__content">
             <h1 class="question-title">{{ question.title }}</h1>
             <div class="description">{{ question.text|linebreaks }}</div>
+            
             <div class="question__footer">
                 <span>
                     Теги:
@@ -18,28 +25,61 @@
                         <a href="{% url 'qa:questions_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
                     {% endfor %}
                 </span>
+
+                <!-- Кнопки управления (Только для автора) -->
+                {% if user.is_authenticated and user == question.author %}
+                    <span style="margin-left: 15px;">
+                        <a href="{% url 'qa:question_edit' question_id=question.id %}" style="color: #007bff;">Редактировать</a>
+                        <a href="{% url 'qa:question_delete' question_id=question.id %}" style="color: red; margin-left: 10px;">Удалить</a>
+                    </span>
+                {% endif %}
             </div>
         </div>
     </div>
 
     <hr>
     
+    <!-- ФОРМА ДОБАВЛЕНИЯ ОТВЕТА -->
+    {% if user.is_authenticated %}
+        <div style="margin: 20px;">
+            <h3>Ваш ответ</h3>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in answer_form %}
+                    <div style="margin-bottom: 10px;">
+                        {{ field }}
+                        {% if field.errors %}
+                            <div style="color: red;">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" style="padding: 5px 15px;" name="answer_submit">Ответить</button>
+            </form>
+        </div>
+        <hr>
+    {% endif %}
+
     <h2 style="margin-left: 20px;">Ответы:</h2>
     {% for answer in answers %}
         <div class="question-item answer-item" style="margin-top: 15px;">
             <div class="question__likes-and-avatar">
-                <span>Аватар {{ answer.author.username }}</span>
-                <input class="likes" type="number" value="{{ answer.answerlike_set.count }}">
+                <span>{{ answer.author.username|default:"Deleted" }}</span>
             </div>
             <div class="question__content">
                 <div class="description">{{ answer.text|linebreaks }}</div>
                 <div class="question__footer">
-                    <span>by {{ answer.author.username }} at {{ answer.created_at|date:"Y-m-d H:i" }}</span>
+                    <span>автор: {{ answer.author.username|default:"Deleted" }}, дата: {{ answer.created_at|date:"d.m.Y H:i" }}</span>
+                    {% if user.is_authenticated and user == answer.author %}
+                        <span style="margin-left: 10px;">
+                            <a href="{% url 'qa:answer_edit' answer_id=answer.id %}" style="color: #007bff;">Редактировать</a>
+                            <a href="{% url 'qa:answer_delete' answer_id=answer.id %}" style="color: red; margin-left: 8px;">Удалить</a>
+                        </span>
+                    {% endif %}
                 </div>
             </div>
         </div>
     {% empty %}
-        <p style="margin-left: 20px;">No answers yet. Be the first to answer!</p>
+        <p style="margin-left: 20px;">Ответов пока нет. Будьте первым!</p>
     {% endfor %}
 
 </main>

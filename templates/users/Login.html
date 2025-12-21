@@ -10,14 +10,28 @@
 {% block content %}
 <main class="root__main">
     <h1>Вход в аккаунт</h1>
-    <form>
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post" action="">
+        {% csrf_token %}
         <label class="form-label">
             Логин
-            <input type="email" name="login" placeholder="Введите ваш логин" required>
+            {{ form.username }} 
+            {% if form.username.errors %}
+                <div style="color: red; font-size: 0.8em;">{{ form.username.errors }}</div>
+            {% endif %}
         </label>
         <label class="form-label">
             Пароль
-            <input type="password" name="password" placeholder="Введите ваш пароль" required>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div style="color: red; font-size: 0.8em;">{{ form.password.errors }}</div>
+            {% endif %}
         </label>
         <div class="button-wrapper"><button type="submit">Войти</button></div>
     </form>

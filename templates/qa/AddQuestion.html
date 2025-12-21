@@ -8,21 +8,31 @@
 
 {% block content %}
 <main class="root__main">
-    <h1>Новый вопрос</h1>
+    <h1>{% if is_edit %}Редактировать вопрос{% else %}Новый вопрос{% endif %}</h1>
+    
     <form method="post">
-        <label class="form-label">
-            Заголовок
-            <input type="text" name="title" placeholder="Напишите свой заголовок сюда">
-        </label>
-        <label class="form-label">
-            Текст
-            <textarea name="content" placeholder="Здесь будет текст вашего вопроса"></textarea>
-        </label>
-        <label class="form-label">
-            Теги
-            <input type="text" name="tags" placeholder="Теги">
-        </label>
-        <div class="button-wrapper"><button type="submit">Опубликовать!</button></div>
+        {% csrf_token %}
+        
+        {# Вывод ошибок формы #}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" style="color: red;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <label class="form-label">
+                {{ field.label }}
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: red; font-size: 0.8em;">{{ field.errors }}</div>
+                {% endif %}
+            </label>
+        {% endfor %}
+
+        <div class="button-wrapper">
+            <button type="submit">{% if is_edit %}Сохранить{% else %}Спросить!{% endif %}</button>
+        </div>
     </form>
 </main>
 {% endblock %}

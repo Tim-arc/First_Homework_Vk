@@ -1,0 +1,14 @@
+{% extends 'qa/main_layout.html' %}
+
+{% block content %}
+<main class="root__main">
+    <h1>Удаление ответа</h1>
+    <p>Вы уверены, что хотите удалить свой ответ к вопросу "<strong>{{ object.question.title }}</strong>"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color: red; color: white;">Да, удалить</button>
+        <a href="{% url 'qa:question_detail' question_id=object.question.id %}" style="margin-left: 10px;">Отмена</a>
+    </form>
+</main>
+{% endblock %}

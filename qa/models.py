@@ -48,6 +48,7 @@ class Question(models.Model):
 
     def get_answers(self):
         return self.answer_set.select_related('author').order_by('-created_at')
+
     
     class Meta:
         verbose_name = 'Вопрос'
@@ -89,3 +90,4 @@ class AnswerLike(models.Model):
         unique_together = ('user', 'answer')
         verbose_name = 'Лайк ответа'
         verbose_name_plural = 'Лайки ответов'
+
