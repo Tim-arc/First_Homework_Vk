@@ -10,27 +10,17 @@
 {% block content %}
 <main class="root__main">
     <h1>Зарегистрироваться</h1>
-    <form>
-        <label class="form-label">
-            Логин
-            <input type="text" name="login" placeholder="Введите логин" required>
-        </label>
-        <label class="form-label">
-            Почта
-            <input type="email" name="email" placeholder="Введите почту" required>
-        </label>
-        <label class="form-label">
-            Пароль
-            <input type="password" name="password" placeholder="Введите пароль" required>
-        </label>
-        <label class="form-label">
-            Повторить пароль
-            <input type="password" name="password_repeat" placeholder="Повторите пароль" required>
-        </label>
-        <label class="form-label">
-            Загрузить фото
-            <input type="file" name="avatar" accept="image/*">
-        </label>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="form-label">
+                {{ field.label }}
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: red; font-size: 0.8em;">{{ field.errors }}</div>
+                {% endif %}
+            </label>
+        {% endfor %}
         <div class="button-wrapper"><button type="submit">Зарегистрироваться</button></div>
     </form>
     

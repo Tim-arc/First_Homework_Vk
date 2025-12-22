@@ -162,12 +162,24 @@ aside {
     border-radius: 50%;
 }
 
-.question-item .likes {
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 0.2rem;
+.likes-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #fff5f5;
+    color: #dc2626;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.15);
+}
+
+.likes-indicator__icon {
+    font-size: 0.9rem;
+}
+
+.likes-indicator__value {
+    font-size: 1rem;
 }
 
 .question__content {

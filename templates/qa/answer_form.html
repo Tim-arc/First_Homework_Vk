@@ -1,0 +1,44 @@
+{% extends 'qa/main_layout.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/Question.css' %}">
+
+<main class="root__main">
+    <div class="qa-page">
+
+        <section class="qa-card qa-card--form">
+            <div class="qa-form-header">
+                <h1 class="qa-title qa-title--sm">
+                    {% if is_edit %}Редактирование ответа{% else %}Ответ{% endif %}
+                </h1>
+
+                <a class="qa-link qa-link--back" href="{% url 'qa:question_detail' question_id=question.id %}">
+                    ← Вернуться к вопросу
+                </a>
+            </div>
+
+            <form method="post" class="qa-form">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="qa-field">
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="qa-error">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="qa-form-actions">
+                    <button type="submit" class="qa-btn">Сохранить</button>
+                    <a class="qa-btn qa-btn--ghost" href="{% url 'qa:question_detail' question_id=question.id %}">
+                        Отмена
+                    </a>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</main>
+{% endblock %}

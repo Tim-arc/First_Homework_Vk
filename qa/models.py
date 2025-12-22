@@ -1,21 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, Q
 
 class QuestionManager(models.Manager):
     def new(self):
         """Возвращает самые новые вопросы."""
         return self.get_queryset().select_related('author').prefetch_related('tags').annotate(
-            answer_count=Count('answer'),
-            like_count=Count('questionlike')
+            answer_count=Count('answer', distinct=True),
+            likes_count=Count('questionlike', filter=Q(questionlike__value=1), distinct=True)
         ).order_by('-created_at')
 
     def best(self):
         """Возвращает лучшие вопросы (отсортированные по количеству лайков)."""
         return self.get_queryset().select_related('author').prefetch_related('tags').annotate(
-            answer_count=Count('answer'),
-            like_count=Count('questionlike')
-        ).order_by('-like_count', '-created_at')
+            answer_count=Count('answer', distinct=True),
+            likes_count=Count('questionlike', filter=Q(questionlike__value=1), distinct=True)
+        ).order_by('-likes_count', '-created_at')
     
     def by_tag(self, tag_name):
         """
@@ -48,6 +48,7 @@ class Question(models.Model):
 
     def get_answers(self):
         return self.answer_set.select_related('author').order_by('-created_at')
+
     
     class Meta:
         verbose_name = 'Вопрос'
@@ -59,6 +60,7 @@ class Answer(models.Model):
     changed_at = models.DateTimeField(verbose_name='Изменен в', auto_now=True)
     question = models.ForeignKey(Question, verbose_name='Вопрос', on_delete=models.CASCADE)
     author = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+    is_correct = models.BooleanField(default=False, verbose_name='Правильный ответ')
 
     def __str__(self):
         return f"Ответ пользователя #{self.author_id} на вопрос #{self.question_id}"
@@ -68,10 +70,13 @@ class Answer(models.Model):
         verbose_name_plural = 'Ответы'
 
 class QuestionLike(models.Model):
+    UP = 1
+    DOWN = -1
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     question = models.ForeignKey(Question, verbose_name='Вопрос', on_delete=models.CASCADE)
     created_at = models.DateTimeField(verbose_name='Создан в', auto_now_add=True)
     changed_at = models.DateTimeField(verbose_name='Изменен в', auto_now=True)
+    value = models.SmallIntegerField(default=UP, verbose_name='Значение')
 
     class Meta:
         unique_together = ('user', 'question')
