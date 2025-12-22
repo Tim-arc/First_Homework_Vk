@@ -93,6 +93,58 @@
     margin-bottom: 0;
 }
 
+.qa-like {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.04);
+    width: fit-content;
+    margin: 14px 0 6px;
+}
+
+.like-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    border-radius: 999px;
+    background: #fff;
+    color: #6b7280;
+    font-weight: 600;
+    padding: 8px 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.like-button__icon {
+    font-size: 1rem;
+}
+
+.like-button__label {
+    font-size: 0.9rem;
+}
+
+.like-button.is-active {
+    color: #dc2626;
+    background-color: #fee2e2;
+    box-shadow: 0 10px 24px rgba(220, 38, 38, 0.2);
+}
+
+.like-button:hover {
+    transform: translateY(-1px);
+}
+
+.like-button__count {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #0f172a;
+}
+
 .qa-footer {
     margin-top: 14px;
     padding-top: 12px;
@@ -258,6 +310,11 @@
     color: rgba(0, 0, 0, 0.65);
 }
 
+.qa-card--correct {
+    border: 2px solid #16a34a;
+    background-color: #f0fff4;
+}
+
 .qa-list {
     display: flex;
     flex-direction: column;
@@ -285,4 +342,56 @@
 
 .qa-muted--danger {
     color: rgba(176, 42, 55, 0.70);
+}
+
+/* ===== Form header / small title / actions ===== */
+.qa-form-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.qa-title--sm {
+    font-size: 22px;
+    margin: 0;
+}
+
+.qa-link {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.70);
+    font-weight: 700;
+}
+
+.qa-link:hover {
+    color: rgba(0, 0, 0, 0.90);
+    text-decoration: underline;
+}
+
+.qa-link--back {
+    padding: 6px 0;
+}
+
+/* Кнопки внизу формы */
+.qa-form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+/* "прозрачная" кнопка-отмена в том же стиле */
+.qa-btn--ghost {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qa-btn--ghost:hover {
+    background: rgba(0, 0, 0, 0.03);
 }

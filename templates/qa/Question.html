@@ -1,29 +1,28 @@
 {% extends 'qa/main_layout.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/Question.css' %}">
+{% endblock %}
 
 {% block content %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/Question.css' %}">
 <main class="root__main">
     <div class="qa-page">
 
         <!-- ВОПРОС -->
-        <article class="qa-card qa-card--question">
+        <article class="qa-card qa-card--question" data-question-id="{{ question.id }}">
             <div class="qa-meta">
                 <div class="qa-author">
                     {% if question.author %}
                         <div class="qa-author__name">{{ question.author.username }}</div>
                         {% if question.author.profile.avatar %}
-                            <img
-                                src="{{ question.author.profile.avatar.url }}"
-                                alt="Аватар пользователя {{ question.author.username }}"
-                                class="qa-avatar"
-                            >
+                            <img src="{{ question.author.profile.avatar.url }}" class="qa-avatar">
                         {% else %}
-                            <div class="qa-avatar qa-avatar--placeholder" aria-hidden="true"></div>
+                            <div class="qa-avatar qa-avatar--placeholder"></div>
                         {% endif %}
                     {% else %}
-                        <div class="qa-author__name">Удаленный пользователь</div>
-                        <div class="qa-avatar qa-avatar--placeholder" aria-hidden="true"></div>
+                        <div class="qa-author__name">Удаленный</div>
                     {% endif %}
                 </div>
             </div>
@@ -32,6 +31,14 @@
                 <h1 class="qa-title">{{ question.title }}</h1>
                 <div class="qa-text">{{ question.text|linebreaks }}</div>
 
+                <div class="qa-like" role="region" aria-label="Количество лайков">
+                    <button class="like-button js-like {% if user_liked %}is-active{% endif %}" type="button" data-value="1" aria-pressed="{% if user_liked %}true{% else %}false{% endif %}">
+                        <span class="like-button__icon" aria-hidden="true">❤</span>
+                        <span class="like-button__label">Нравится</span>
+                    </button>
+                    <span class="like-button__count js-like-count" aria-live="polite">{{ question.likes_count|default:0 }}</span>
+                </div>
+
                 <footer class="qa-footer">
                     <div class="qa-tags">
                         <span class="qa-tags__label">Теги:</span>
@@ -39,19 +46,15 @@
                             {% for tag in question.tags.all %}
                                 <a class="qa-tag" href="{% url 'qa:questions_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
                             {% empty %}
-                                <span class="qa-tags__empty">нет</span>
+                                <span class="qa-tags__empty">Без тегов</span>
                             {% endfor %}
                         </div>
                     </div>
 
                     {% if user.is_authenticated and user == question.author %}
                         <div class="qa-actions">
-                            <a class="qa-action qa-action--edit" href="{% url 'qa:question_edit' question_id=question.id %}">
-                                Редактировать
-                            </a>
-                            <a class="qa-action qa-action--delete" href="{% url 'qa:question_delete' question_id=question.id %}">
-                                Удалить
-                            </a>
+                            <a class="qa-action qa-action--edit" href="{% url 'qa:question_edit' question_id=question.id %}">Редактировать</a>
+                            <a class="qa-action qa-action--delete" href="{% url 'qa:question_delete' question_id=question.id %}">Удалить</a>
                         </div>
                     {% endif %}
                 </footer>
@@ -85,11 +88,23 @@
         {% endif %}
 
         <!-- ОТВЕТЫ -->
-        <h2 class="qa-section-title">Ответы</h2>
+        <h2 id="answers" class="qa-section-title">Ответы</h2>
 
         <section class="qa-list">
             {% for answer in answers %}
                 <article class="qa-card qa-card--answer">
+
+                    <div class="qa-correct-mark">
+                        {% if user.is_authenticated and user == question.author %}
+                            <label>
+                                <input type="radio" name="correct_answer" class="js-correct-answer" value="{{ answer.id }}" {% if answer.is_correct %}checked{% endif %}>
+                                Правильный ответ
+                            </label>
+                        {% elif answer.is_correct %}
+                            <span style="color: green; font-weight: bold;">✔ Правильный ответ</span>
+                        {% endif %}
+                    </div>
+
                     <div class="qa-meta">
                         <div class="qa-author">
                             <div class="qa-author__name">{{ answer.author.username|default:"Deleted" }}</div>
@@ -128,4 +143,63 @@
 
     </div>
 </main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('.js-like').click(function() {
+            const $btn = $(this);
+            const $card = $btn.closest('.qa-card');
+            const questionId = $card.data('question-id');
+
+            $.ajax({
+                url: "{% url 'qa:like_question' %}",
+                type: "POST",
+                data: {
+                    'question_id': questionId,
+                    'value': 1
+                },
+                success: function(response) {
+                    if (response.status === 'ok') {
+                        $card.find('.js-like-count').text(response.likes);
+                        if (response.user_liked) {
+                            $btn.addClass('is-active').attr('aria-pressed', 'true');
+                        } else {
+                            $btn.removeClass('is-active').attr('aria-pressed', 'false');
+                        }
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Ошибка: ' + xhr.status);
+                }
+            });
+        });
+
+        $('.js-correct-answer').change(function() {
+            const $radio = $(this);
+            const answerId = $radio.val();
+            const questionId = "{{ question.id }}"; 
+
+            $.ajax({
+                url: "{% url 'qa:correct_answer' %}",
+                type: "POST",
+                data: {
+                    'question_id': questionId,
+                    'answer_id': answerId
+                },
+                success: function(response) {
+                    if (response.status === 'ok') {
+                        $('.qa-card--answer').removeClass('qa-card--correct');
+                        $radio.closest('.qa-card--answer').addClass('qa-card--correct');
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

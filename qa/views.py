@@ -2,9 +2,93 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Question, Answer, Tag
+from .models import Question, Answer, Tag, QuestionLike
 from .utils import paginate
 from .forms import AskForm, AnswerForm
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.db.models import Count, Q
+
+@require_POST
+@login_required
+def like_question_view(request):
+    """
+    AJAX обработчик лайков.
+    Ожидает POST параметры: question_id, value (1).
+    """
+    question_id = request.POST.get('question_id')
+    value = request.POST.get('value')
+    
+    try:
+        question = Question.objects.get(pk=question_id)
+        value = int(value)
+        if value != QuestionLike.UP:
+            raise ValueError('Invalid like value')
+
+        existing_like = QuestionLike.objects.filter(
+            user=request.user,
+            question=question
+        ).first()
+
+        if existing_like:
+            existing_like.delete()
+            user_liked = False
+        else:
+            QuestionLike.objects.update_or_create(
+                user=request.user,
+                question=question,
+                defaults={'value': QuestionLike.UP}
+            )
+            user_liked = True
+        
+        likes = question.questionlike_set.filter(value=QuestionLike.UP).count()
+        
+        return JsonResponse({
+            'status': 'ok', 
+            'likes': likes,
+            'user_liked': user_liked,
+        })
+        
+    except Question.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Вопрос не найден'}, status=404)
+    except ValueError:
+        return JsonResponse({'status': 'error', 'message': 'Неверные данные'}, status=400)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+@require_POST
+@login_required
+def correct_answer_view(request):
+    """
+    AJAX обработчик отметки правильного ответа.
+    Ожидает POST параметры: question_id, answer_id.
+    """
+    question_id = request.POST.get('question_id')
+    answer_id = request.POST.get('answer_id')
+    
+    try:
+        question = Question.objects.get(pk=question_id)
+        answer = Answer.objects.get(pk=answer_id)
+        
+        # Проверка: только автор вопроса может отмечать правильный ответ
+        if request.user != question.author:
+             return JsonResponse({'status': 'error', 'message': 'Нет прав'}, status=403)
+             
+        if answer.question != question:
+            return JsonResponse({'status': 'error', 'message': 'Ответ не от этого вопроса'}, status=400)
+
+        # Снимаем галочку со всех остальных ответов этого вопроса
+        question.answer_set.update(is_correct=False)
+        
+        # Ставим галочку нужному
+        answer.is_correct = True
+        answer.save()
+        
+        return JsonResponse({'status': 'ok'})
+        
+    except (Question.DoesNotExist, Answer.DoesNotExist):
+        return JsonResponse({'status': 'error', 'message': 'Объект не найден'}, status=404)
 
 def index(request):
     new_questions = Question.objects.new()
@@ -16,7 +100,14 @@ def new_question_view(request):
     return render(request, 'qa/AddQuestion.html')
 
 def question_detail_view(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+    question_qs = (
+        Question.objects.annotate(
+            likes_count=Count('questionlike', filter=Q(questionlike__value=QuestionLike.UP))
+        )
+        .select_related('author')
+        .prefetch_related('tags')
+    )
+    question = get_object_or_404(question_qs, pk=question_id)
     answers = question.get_answers()
 
     if request.method == 'POST':
@@ -34,10 +125,15 @@ def question_detail_view(request, question_id):
     else:
         answer_form = AnswerForm()
 
+    user_liked = False
+    if request.user.is_authenticated:
+        user_liked = QuestionLike.objects.filter(user=request.user, question=question).exists()
+
     context = {
         'question': question,
         'answers': answers,
         'answer_form': answer_form,
+        'user_liked': user_liked,
     }
     
     return render(request, 'qa/Question.html', context)

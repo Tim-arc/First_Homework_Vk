@@ -13,5 +13,7 @@ urlpatterns = [
     path('tag/<str:tag_name>/', views.questions_by_tag_view, name='questions_by_tag'),
     path('best/', views.best_questions_view, name='best'),
     path('filtred/', views.filtred_view, name="filtred"),
+    path('ajax/like/', views.like_question_view, name='like_question'),
+    path('ajax/correct/', views.correct_answer_view, name='correct_answer'),
     path('', views.index, name='index'),
 ]
