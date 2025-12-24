@@ -1,0 +1,4 @@
+command = '/Users/timofey/Developer/Vk_edu/Project/.venv/bin/gunicorn'
+pythonpath = '/Users/timofey/Developer/Vk_edu/Project'
+bind = '127.0.0.1:8000'
+workers = 2
