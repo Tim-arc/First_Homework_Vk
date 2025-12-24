@@ -17,6 +17,7 @@ venv/
 db.sqlite3
 media/
 staticfiles/
+static_content/
 
 # Env/секреты
 .env
